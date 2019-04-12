@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="Golang 切片扩容规则扩容源代码位于 $GOROOT/src/runtime/slice.go  1234567891011121314151617181920212223242526func growslice(et *_type, old slice, cap int) slice &amp;#123;        // ......    newcap := old.cap    double">
+<meta name="description" content="Golang unsafe包前言12345/*	Package unsafe contains operations that step around the type safety of Go programs.	Packages that import unsafe may be non-portable and are not protected by the	Go 1 compatibil">
 <meta name="keywords" content="go">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Golang切片扩容规则">
-<meta property="og:url" content="https://peanuts9.github.io/go/Golang切片扩容规则/index.html">
+<meta property="og:title" content="Golang unsafe包">
+<meta property="og:url" content="https://peanuts9.github.io/go/Golang-unsafe包/index.html">
 <meta property="og:site_name" content="胖胖的">
-<meta property="og:description" content="Golang 切片扩容规则扩容源代码位于 $GOROOT/src/runtime/slice.go  1234567891011121314151617181920212223242526func growslice(et *_type, old slice, cap int) slice &amp;#123;        // ......    newcap := old.cap    double">
+<meta property="og:description" content="Golang unsafe包前言12345/*	Package unsafe contains operations that step around the type safety of Go programs.	Packages that import unsafe may be non-portable and are not protected by the	Go 1 compatibil">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-04-08T09:43:02.891Z">
+<meta property="og:updated_time" content="2019-04-12T12:13:24.491Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Golang切片扩容规则">
-<meta name="twitter:description" content="Golang 切片扩容规则扩容源代码位于 $GOROOT/src/runtime/slice.go  1234567891011121314151617181920212223242526func growslice(et *_type, old slice, cap int) slice &amp;#123;        // ......    newcap := old.cap    double">
+<meta name="twitter:title" content="Golang unsafe包">
+<meta name="twitter:description" content="Golang unsafe包前言12345/*	Package unsafe contains operations that step around the type safety of Go programs.	Packages that import unsafe may be non-portable and are not protected by the	Go 1 compatibil">
 
 
 
@@ -120,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="https://peanuts9.github.io/go/Golang切片扩容规则/">
+  <link rel="canonical" href="https://peanuts9.github.io/go/Golang-unsafe包/">
 
 
 
 
 
-  <title>Golang切片扩容规则 | 胖胖的</title>
+  <title>Golang unsafe包 | 胖胖的</title>
   
 
 
@@ -263,7 +263,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://peanuts9.github.io/go/Golang切片扩容规则/">
+    <link itemprop="mainEntityOfPage" href="https://peanuts9.github.io/go/Golang-unsafe包/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="peanuts9">
@@ -280,7 +280,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Golang切片扩容规则</h1>
+          <h1 class="post-title" itemprop="name headline">Golang unsafe包</h1>
         
 
         <div class="post-meta">
@@ -292,8 +292,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-08T17:42:17+08:00">
-                2018-04-08
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-11T20:12:09+08:00">
+                2018-04-11
               </time>
             
 
@@ -352,30 +352,27 @@
       
 
       
-        <h3 id="Golang-切片扩容规则"><a href="#Golang-切片扩容规则" class="headerlink" title="Golang 切片扩容规则"></a>Golang 切片扩容规则</h3><p>扩容源代码位于 <code>$GOROOT/src/runtime/slice.go</code> </p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">func growslice(et *_type, old slice, cap int) slice &#123;</span><br><span class="line">    </span><br><span class="line">    // ......</span><br><span class="line"></span><br><span class="line">    newcap := old.cap</span><br><span class="line">    doublecap := newcap + newcap</span><br><span class="line">    if cap &gt; doublecap &#123;</span><br><span class="line">        newcap = cap</span><br><span class="line">    &#125; else &#123; </span><br><span class="line">        if old.len &lt; 1024 &#123;</span><br><span class="line">            newcap = doublecap</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            // Check 0 &lt; newcap to detect overflow</span><br><span class="line">            // and prevent an infinite loop.</span><br><span class="line">            for 0 &lt; newcap &amp;&amp; newcap &lt; cap &#123;</span><br><span class="line">                newcap += newcap / 4</span><br><span class="line">            &#125;</span><br><span class="line">            // Set newcap to the requested cap when</span><br><span class="line">            // the newcap calculation overflowed.</span><br><span class="line">            if newcap &lt;= 0 &#123;</span><br><span class="line">                newcap = cap</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    // ......</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>cap是旧容量加上新加入元素大小的结果，也就是此处slice扩容的理论上的最小值，old就是旧的slice。可以看到cap增长基本规则是，若新入元素大小通过倍数增长能够hold住，那就根据旧容量是否超过1024决定是倍数增长还是1.25倍逐步增长；若新入元素大小超过了原有的容量，则新容量取两者相加计算出来的最小cap值。</p>
-<h4 id="内存对齐"><a href="#内存对齐" class="headerlink" title="内存对齐"></a>内存对齐</h4><p>​       计算出了新容量之后，还没有完，出于内存的高效利用考虑，还要进行内存对齐</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">capmem := roundupsize(uintptr(newcap) * uintptr(et.size))</span><br></pre></td></tr></table></figure>
-<p>​       newcap就是前文中计算出的newcap，et.size代表slice中一个元素的大小，capmem计算出来的就是此次扩容需要申请的内存大小。roundupsize函数就是处理内存对齐的函数。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">func roundupsize(size uintptr) uintptr &#123;</span><br><span class="line">	if size &lt; _MaxSmallSize &#123;</span><br><span class="line">		if size &lt;= 1024-8 &#123;</span><br><span class="line">			return uintptr(class_to_size[size_to_class8[(size+7)&gt;&gt;3]])</span><br><span class="line">		&#125; else &#123;</span><br><span class="line">			return uintptr(class_to_size[size_to_class128[(size-1024+127)&gt;&gt;7]])</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	if size+_PageSize &lt; size &#123;</span><br><span class="line">		return size</span><br><span class="line">	&#125;</span><br><span class="line">	return round(size, _PageSize)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>​       _MaxSmallSize的值在64位macos上是32«10，也就是2的15次方，32k。golang事先生成了一个内存对齐表，位于 <code>$GOROOT/src/runtime/sizeclasses.go</code> 中。通过查找(size+7) » 3，也就是需要多少个8字节，然后到class_to_size中寻找最小内存的大小。承接上文的size，应该是40，size_to_class8的内容是这样的：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">size_to_class8：1 1 2 3 3 4 4 5 5 6 6 7 7 8 8 9 9 10 10 11 11...</span><br></pre></td></tr></table></figure>
-<p>​       查表得到的数字是4，而class_to_size的内容是这样的：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">class_to_size：0 8 16 32 48 64 80 96 112 128 144 160 176 192 208 224 240 256...</span><br></pre></td></tr></table></figure>
-<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><p>append的时候发生扩容的动作</p>
-<ul>
-<li>append单个元素，或者append少量的多个元素，这里的少量指double之后的容量能容纳，这样就会走以下扩容流程，不足1024，双倍扩容，超过1024的，1.25倍扩容。</li>
-<li>若是append多个元素，且double后的容量不能容纳，直接使用预估的容量。</li>
-</ul>
-<p><strong>敲重点！！！！此外，以上两个分支得到新容量后，均需要根据slice的类型size，算出新的容量所需的内存情况capmem，然后再进行capmem向上取整，得到新的所需内存，除上类型size，得到真正的最终容量,作为新的slice的容量。</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">func test()&#123;</span><br><span class="line">	sli1 := []int32&#123;1,2,3&#125;</span><br><span class="line">	sli1 = append(sli1,1)</span><br><span class="line">	fmt.Println(cap(sli1) //输出8，32位整数占4个字节，4 * (3 * 2) = 24，按表向上取32，最终结果 32 / 4 = 8</span><br><span class="line">	</span><br><span class="line">	sli2 := []int64&#123;1,2,3&#125;</span><br><span class="line">	sli2 = append(sli2,1)</span><br><span class="line">	fmt.Println(cap(sli2) //输出6，64位整数占8个字节，8 * (3 * 2) = 48，按表向上取48，最终结果 48 / 8 = 6</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="slice在执行append时的流程"><a href="#slice在执行append时的流程" class="headerlink" title="slice在执行append时的流程"></a>slice在执行append时的流程</h4><p>1、检查待添加的个数加上原有个数之和是否大于容量，如果小于等于容量则直接返回；如果大于则进行扩容操作</p>
-<p>2.1、如果待添加个数 加上 原有个数之和大于容量的2倍，则 newCap 就等于待添加个数与原有个数之和</p>
-<p>2.2、如果如果待添加个数 加上 原有个数之和小于等于容量的2倍，则再进行一次判断。</p>
-<p>​    2.2.1、判断原有容量是否大于1024，如果大于等于 1024，则每次按照 1.25 倍进行扩容，newcap += newcap / 4</p>
-<p>​    2.2.2、如果原有容量小于 1024，则按照2倍进行扩容，newcap = doublecap</p>
-<p>3、进行内存对齐。按照 class_to_size 中设置的值，向上取整，然后根据类型计算最终的容量</p>
+        <h3 id="Golang-unsafe包"><a href="#Golang-unsafe包" class="headerlink" title="Golang unsafe包"></a>Golang unsafe包</h3><h4 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h4><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">	Package unsafe contains operations that step around the type safety of Go programs.</span></span><br><span class="line"><span class="comment">	Packages that import unsafe may be non-portable and are not protected by the</span></span><br><span class="line"><span class="comment">	Go 1 compatibility guidelines.</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
+<p>​    在 unsafe 包源码顶部写着如上的注释，翻译过来大致为 “unsafe 包可提供绕过 Golang 类型安全检查的操作。但是导入 unsafe 包的工程可能存在移植问题，并且不被 Go 1 兼容保护”。</p>
+<p>​    在开发中，可使用 unsafe 包直接操作内存，就如同 C 一般。</p>
+<h4 id="unsafe-结构"><a href="#unsafe-结构" class="headerlink" title="unsafe 结构"></a>unsafe 结构</h4><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> ArbitraryType <span class="keyword">int</span></span><br><span class="line"><span class="keyword">type</span> Pointer *ArbitraryType</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">Sizeof</span><span class="params">(x ArbitraryType)</span> <span class="title">uintptr</span></span></span><br><span class="line"><span class="function"><span class="title">func</span> <span class="title">Offsetof</span><span class="params">(x ArbitraryType)</span> <span class="title">uintptr</span></span></span><br><span class="line"><span class="function"><span class="title">func</span> <span class="title">Alignof</span><span class="params">(x ArbitraryType)</span> <span class="title">uintptr</span></span></span><br></pre></td></tr></table></figure>
+<p>​    unsafe 包中有两个类型，三个函数。</p>
+<p>​    <code>type ArbitraryType int</code> ： ArbitraryType 其实就是 int 的别名，这样写仅仅出于文档中便于理解，没实际意义，ArbitraryType 可代表 Golang 中任一类型。在 Golang 中，指针类型长度与int类型长度，在内存中占用的字节数是一样的。</p>
+<p>​    <code>type Pointer *ArbitraryType</code> ：int 指针类型的别名</p>
+<p>​    <code>func Sizeof(x ArbitraryType) uintptr</code> ：  获取变量在内存中所占用的内存字节数。如果变量为 slice ，返回其描述符大小，而不是其实际占用大小；如果变量为 string 类型，固定返回 16，因为字符串类型对应一个结构体，其包含两个域，第一个代表指向该字符串的指针，第二个域代表字符串的长度，两者长度均为 8，所以字符串的sizeof 固定返回 16 。</p>
+<p>​    <code>func Offsetof(x ArbitraryType) uintptr</code> ：参数必须为结构体的属性，返回属性的偏移量。</p>
+<p>​    <code>func Alignof(x ArbitraryType) uintptr</code>   ： 返回变量对齐字节数量</p>
+<p>​    补充：</p>
+<p>​    unsafe.Alignof(w)等价于reflect.TypeOf(w).Align。</p>
+<p>​    unsafe.Alignof(w.i)等价于reflect.Typeof(w.i).FieldAlign()</p>
+<h4 id="uintptr-与-unsafe-Pointer"><a href="#uintptr-与-unsafe-Pointer" class="headerlink" title="uintptr 与 unsafe.Pointer"></a>uintptr 与 unsafe.Pointer</h4><h5 id="unsafe-Pointer"><a href="#unsafe-Pointer" class="headerlink" title="unsafe.Pointer"></a>unsafe.Pointer</h5><p>​    单纯的通用指针类型，用于转换不同类型指针，它不可以参与指针运算。</p>
+<p>​    1、可以指向任意类型的指针</p>
+<p>​    2、不可以进行数值计算</p>
+<p>​    3、任意类型的指针值均可转换为 Pointer；Pointer 均可转换为任意类型的指针值；uintptr 均可转换为 Pointer；Pointer 均可转换为 uintptr</p>
+<h5 id="uintptr-："><a href="#uintptr-：" class="headerlink" title="uintptr ："></a>uintptr ：</h5><p>​    一个足够大的无符号整型， 可用来表示任意地址，也可以进行数值的计算。uintptr 无法持有对象，uintptr类型的目标会被回收。</p>
+<p>e.g.</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">Float64bits</span><span class="params">(f <span class="keyword">float64</span>)</span> <span class="title">uint64</span></span> &#123;</span><br><span class="line">	  <span class="keyword">return</span> *(*<span class="keyword">uint64</span>)(unsafe.Pointer(&amp;f))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>​    </p>
 
       
     </div>
@@ -406,8 +403,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/go/json/Golang-json序列化与反序列化/" rel="next" title="Golang json序列化与反序列化">
-                <i class="fa fa-chevron-left"></i> Golang json序列化与反序列化
+              <a href="/go/Golang方法集/" rel="next" title="Golang方法集">
+                <i class="fa fa-chevron-left"></i> Golang方法集
               </a>
             
           </div>
@@ -416,8 +413,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/go/Golang方法集/" rel="prev" title="Golang方法集">
-                Golang方法集 <i class="fa fa-chevron-right"></i>
+              <a href="/go/内存堆起/内存对齐/" rel="prev" title="内存对齐">
+                内存对齐 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -550,7 +547,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Golang-切片扩容规则"><span class="nav-number">1.</span> <span class="nav-text">Golang 切片扩容规则</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#内存对齐"><span class="nav-number">1.1.</span> <span class="nav-text">内存对齐</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#总结"><span class="nav-number">1.2.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#slice在执行append时的流程"><span class="nav-number">1.3.</span> <span class="nav-text">slice在执行append时的流程</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Golang-unsafe包"><span class="nav-number">1.</span> <span class="nav-text">Golang unsafe包</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#前言"><span class="nav-number">1.1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#unsafe-结构"><span class="nav-number">1.2.</span> <span class="nav-text">unsafe 结构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#uintptr-与-unsafe-Pointer"><span class="nav-number">1.3.</span> <span class="nav-text">uintptr 与 unsafe.Pointer</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#unsafe-Pointer"><span class="nav-number">1.3.1.</span> <span class="nav-text">unsafe.Pointer</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#uintptr-："><span class="nav-number">1.3.2.</span> <span class="nav-text">uintptr ：</span></a></li></ol></li></ol></li></ol></div>
             
 
           </div>
