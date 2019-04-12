@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="go,内存对齐,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="内存对齐内存对齐规则​    CPU在读取内存时是一块一块进行读取的。块大小成为memory access granularity（粒度）。对齐时按以下规则  成员各自对齐。对于结构的每个成员，第一个成员位于偏移量为 0  的位置，以后每个数据成员的偏移量必须是 min( 粒度 ,  成员自身长度) 的倍数。 结构自身对齐。在各个数据成员完成对齐后，结构自身也需要进行对齐，对齐按照 min ( 粒">
+<meta name="keywords" content="go,内存对齐">
+<meta property="og:type" content="article">
+<meta property="og:title" content="内存对齐">
+<meta property="og:url" content="https://peanuts9.github.io/go/内存对齐/内存对齐/index.html">
+<meta property="og:site_name" content="胖胖的">
+<meta property="og:description" content="内存对齐内存对齐规则​    CPU在读取内存时是一块一块进行读取的。块大小成为memory access granularity（粒度）。对齐时按以下规则  成员各自对齐。对于结构的每个成员，第一个成员位于偏移量为 0  的位置，以后每个数据成员的偏移量必须是 min( 粒度 ,  成员自身长度) 的倍数。 结构自身对齐。在各个数据成员完成对齐后，结构自身也需要进行对齐，对齐按照 min ( 粒">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://s2.ax1x.com/2019/04/12/Aqn4UI.png">
+<meta property="og:updated_time" content="2019-04-12T12:17:38.473Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="内存对齐">
+<meta name="twitter:description" content="内存对齐内存对齐规则​    CPU在读取内存时是一块一块进行读取的。块大小成为memory access granularity（粒度）。对齐时按以下规则  成员各自对齐。对于结构的每个成员，第一个成员位于偏移量为 0  的位置，以后每个数据成员的偏移量必须是 min( 粒度 ,  成员自身长度) 的倍数。 结构自身对齐。在各个数据成员完成对齐后，结构自身也需要进行对齐，对齐按照 min ( 粒">
+<meta name="twitter:image" content="https://s2.ax1x.com/2019/04/12/Aqn4UI.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://peanuts9.github.io/go/内存对齐/内存对齐/">
+
+
+
+
+
+  <title>内存对齐 | 胖胖的</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">胖胖的</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://peanuts9.github.io/go/内存对齐/内存对齐/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="peanuts9">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="胖胖的">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">内存对齐</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-12T20:08:20+08:00">
+                2018-04-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/go/" itemprop="url" rel="index">
+                    <span itemprop="name">go</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/go/内存对齐/" itemprop="url" rel="index">
+                    <span itemprop="name">内存对齐</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="内存对齐"><a href="#内存对齐" class="headerlink" title="内存对齐"></a>内存对齐</h3><h4 id="内存对齐规则"><a href="#内存对齐规则" class="headerlink" title="内存对齐规则"></a>内存对齐规则</h4><p>​    CPU在读取内存时是一块一块进行读取的。块大小成为memory access granularity（粒度）。对齐时按以下规则</p>
+<ol>
+<li>成员各自对齐。对于结构的每个成员，第一个成员位于偏移量为 0  的位置，以后每个数据成员的偏移量必须是 <code>min( 粒度 ,  成员自身长度)</code> 的倍数。</li>
+<li>结构自身对齐。在各个数据成员完成对齐后，结构自身也需要进行对齐，对齐按照 <code>min ( 粒度 ， 结构中数据成员最大长度)</code> 的倍数</li>
+</ol>
+<h4 id="为什么要内存对齐？"><a href="#为什么要内存对齐？" class="headerlink" title="为什么要内存对齐？"></a>为什么要内存对齐？</h4><ol>
+<li>平台原因(移植原因)：不是所有的硬件平台都能访问任意地址上的任意数据的；某些硬件平台只能在某些地址处取某些特定类型的数据，否则抛出硬件异常。</li>
+<li>性能原因：数据结构(尤其是栈)应该尽可能地在自然边界上对齐。原因在于，为了访问未对齐的内存，处理器需要作两次内存访问；而对齐的内存访问仅需要一次访问。</li>
+</ol>
+<h4 id="举个栗子"><a href="#举个栗子" class="headerlink" title="举个栗子"></a>举个栗子</h4><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">"fmt"</span></span><br><span class="line">	<span class="string">"unsafe"</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> S1 <span class="keyword">struct</span>&#123;</span><br><span class="line">	a <span class="keyword">byte</span></span><br><span class="line">	b <span class="keyword">int64</span></span><br><span class="line">	c <span class="keyword">int32</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> S2 <span class="keyword">struct</span>&#123;	</span><br><span class="line">	a <span class="keyword">byte</span></span><br><span class="line">	c <span class="keyword">int32</span></span><br><span class="line">	b <span class="keyword">int64</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">	s1 := S1&#123;&#125;</span><br><span class="line">	s2 := S2&#123;&#125;</span><br><span class="line">	fmt.Println(<span class="string">"s1 size:"</span>,unsafe.Sizeof(s1))</span><br><span class="line">	fmt.Println(<span class="string">"s2 size:"</span>,unsafe.Sizeof(s2))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>输出结果为</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">p@Ubuntu:/Desktop$ go build test.go</span><br><span class="line">p@Ubuntu:/Desktop$ ./test</span><br><span class="line">s1 size: 24</span><br><span class="line">s2 size: 16</span><br></pre></td></tr></table></figure>
+<p><img src="https://s2.ax1x.com/2019/04/12/Aqn4UI.png" alt="Aqn4UI.png"></p>
+<p>如上图，表示了 s1 与 s2 在内存中的分布情况。</p>
+<p>s1 对齐过程 </p>
+<p>​    1、a 为第一个成员，偏移量为 0;</p>
+<p>​    2、b 自身长度为 8，系统粒度为 8 ，所以 b 的偏移量为 8的倍数，也就是 8，而 a 后 7位就会被填空；</p>
+<p>​    3、c 自身长度 4，粒度为 8，所以偏移量为 4的倍数，就是16</p>
+<p>​    4、完成数据成员各自对齐后，需要进行结构整体对齐。结构中数据结构最长长度为 8，粒度为 8,所以最终长度为 8 的倍数，8 +8 +4 =20，最后结果就是 24</p>
+<p>s2 对齐过程</p>
+<p>​    1、a 为第一个成员，偏移量为 0;</p>
+<p>​    2、c 为第二个成员，自身长度为 4，较粒度 8小，所以偏移量是 4的倍数，也就是 4，a 后3位会被填空</p>
+<p>​    3、b 为第三个成员，自身长度为 8，系统粒度为 8 ，所以 b 的偏移量为 8的倍数，也就是 16</p>
+<p>​    4、结构自身对齐。最大数据成员长度为 8，粒度为 8，所以最终长度为 8的倍数，4 + 4 + 8 = 16，正好满足条件，所以结果就是 16</p>
+<p>在 Golang 中，可以使用 <code>unsafe.Offsetof()</code> 获取偏移量，对上面的代码进行一点点修改</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">"fmt"</span></span><br><span class="line">	<span class="string">"unsafe"</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> S1 <span class="keyword">struct</span>&#123;</span><br><span class="line">	a <span class="keyword">byte</span></span><br><span class="line">	b <span class="keyword">int64</span></span><br><span class="line">	c <span class="keyword">int32</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> S2 <span class="keyword">struct</span>&#123;	</span><br><span class="line">	a <span class="keyword">byte</span></span><br><span class="line">	c <span class="keyword">int32</span></span><br><span class="line">	b <span class="keyword">int64</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">	s1 := S1&#123;&#125;</span><br><span class="line">	s2 := S2&#123;&#125;</span><br><span class="line">	fmt.Println(<span class="string">"s1 size:"</span>,unsafe.Sizeof(s1))</span><br><span class="line">	fmt.Println(<span class="string">"s2 size:"</span>,unsafe.Sizeof(s2))</span><br><span class="line">	fmt.Println(<span class="string">"s2.c offset:"</span>,unsafe.Offsetof(s2.c))</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>输出结果</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">p@Ubuntu:/Desktop go build test.go</span><br><span class="line">p@Ubuntu:/Desktop ./test</span><br><span class="line">s1 size: 24</span><br><span class="line">s2 size: 16</span><br><span class="line">s2.c offset: 4</span><br></pre></td></tr></table></figure>
+<p>可以看到 s2 的成员 c 偏移量就是 4</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/go/" rel="tag"># go</a>
+          
+            <a href="/tags/内存对齐/" rel="tag"># 内存对齐</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/go/Golang-unsafe包/" rel="next" title="Golang unsafe包">
+                <i class="fa fa-chevron-left"></i> Golang unsafe包
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/uncategorized/合并K个排序链表/" rel="prev" title="合并K个排序链表">
+                合并K个排序链表 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">peanuts9</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">16</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">13</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#内存对齐"><span class="nav-number">1.</span> <span class="nav-text">内存对齐</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#内存对齐规则"><span class="nav-number">1.1.</span> <span class="nav-text">内存对齐规则</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#为什么要内存对齐？"><span class="nav-number">1.2.</span> <span class="nav-text">为什么要内存对齐？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#举个栗子"><span class="nav-number">1.3.</span> <span class="nav-text">举个栗子</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2017 &mdash; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">peanuts9</span>
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
