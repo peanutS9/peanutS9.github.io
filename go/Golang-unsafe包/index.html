@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="胖胖的">
 <meta property="og:description" content="Golang unsafe包前言12345/*	Package unsafe contains operations that step around the type safety of Go programs.	Packages that import unsafe may be non-portable and are not protected by the	Go 1 compatibil">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-04-12T12:13:24.491Z">
+<meta property="og:updated_time" content="2019-04-15T02:49:09.395Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Golang unsafe包">
 <meta name="twitter:description" content="Golang unsafe包前言12345/*	Package unsafe contains operations that step around the type safety of Go programs.	Packages that import unsafe may be non-portable and are not protected by the	Go 1 compatibil">
@@ -359,7 +359,7 @@
 <p>​    unsafe 包中有两个类型，三个函数。</p>
 <p>​    <code>type ArbitraryType int</code> ： ArbitraryType 其实就是 int 的别名，这样写仅仅出于文档中便于理解，没实际意义，ArbitraryType 可代表 Golang 中任一类型。在 Golang 中，指针类型长度与int类型长度，在内存中占用的字节数是一样的。</p>
 <p>​    <code>type Pointer *ArbitraryType</code> ：int 指针类型的别名</p>
-<p>​    <code>func Sizeof(x ArbitraryType) uintptr</code> ：  获取变量在内存中所占用的内存字节数。如果变量为 slice ，返回其描述符大小，而不是其实际占用大小；如果变量为 string 类型，固定返回 16，因为字符串类型对应一个结构体，其包含两个域，第一个代表指向该字符串的指针，第二个域代表字符串的长度，两者长度均为 8，所以字符串的sizeof 固定返回 16 。</p>
+<p>​    <code>func Sizeof(x ArbitraryType) uintptr</code> ：  获取变量在内存中所占用的内存字节数。如果变量为 slice ，返回其描述符大小，也就是固定为 24，而不是其实际占用大小；如果变量为 string 类型，固定返回 16，因为字符串类型对应一个结构体，其包含两个域，第一个代表指向该字符串的指针，第二个域代表字符串的长度，两者长度均为 8，所以字符串的sizeof 固定返回 16 。</p>
 <p>​    <code>func Offsetof(x ArbitraryType) uintptr</code> ：参数必须为结构体的属性，返回属性的偏移量。</p>
 <p>​    <code>func Alignof(x ArbitraryType) uintptr</code>   ： 返回变量对齐字节数量</p>
 <p>​    补充：</p>
