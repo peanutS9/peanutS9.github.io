@@ -79,18 +79,20 @@
 
 
 
-<meta name="description" content="rpm包和deb包是两种Linux系统下最常见的安装包格式。rpm包主要应用在RedHat系列包括 Fedora等发行版的Linux系统上，deb包主要应用于Debian系列包括现在比较流行的Ubuntu等发行版上。 rpm/yum适用于Redhat、CentOS、Suse等平台；apt-get/dpkg适用于Debian、Ubuntu等平台；zypper适合于Suse平台。 rpm常用命令rpm">
+<meta name="description" content="top简介​    top命令是Linux下常用的系统性能分析工具，能实时查看系统中各个进程资源占用情况。 top参数语法top [-] [d] [p] [q] [c] [C] [S] [s]  [n] 参数  d 指定每两次屏幕信息刷新之间的时间间隔。当然用户可以使用s交互命令来改变之。 p 通过指定监控进程ID来仅仅监控某个进程的状态。 q 该选项将使top没有任何延迟的进行刷新。如果调用程序">
 <meta name="keywords" content="Linux">
 <meta property="og:type" content="article">
-<meta property="og:title" content="rpm、yum、apt-get">
-<meta property="og:url" content="https://peanuts9.github.io/Linux/rpm、yum、apt-get/index.html">
+<meta property="og:title" content="Linux top 命令">
+<meta property="og:url" content="https://peanuts9.github.io/Linux/Linux-top-命令/index.html">
 <meta property="og:site_name" content="胖胖的">
-<meta property="og:description" content="rpm包和deb包是两种Linux系统下最常见的安装包格式。rpm包主要应用在RedHat系列包括 Fedora等发行版的Linux系统上，deb包主要应用于Debian系列包括现在比较流行的Ubuntu等发行版上。 rpm/yum适用于Redhat、CentOS、Suse等平台；apt-get/dpkg适用于Debian、Ubuntu等平台；zypper适合于Suse平台。 rpm常用命令rpm">
+<meta property="og:description" content="top简介​    top命令是Linux下常用的系统性能分析工具，能实时查看系统中各个进程资源占用情况。 top参数语法top [-] [d] [p] [q] [c] [C] [S] [s]  [n] 参数  d 指定每两次屏幕信息刷新之间的时间间隔。当然用户可以使用s交互命令来改变之。 p 通过指定监控进程ID来仅仅监控某个进程的状态。 q 该选项将使top没有任何延迟的进行刷新。如果调用程序">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-04-10T11:46:31.822Z">
+<meta property="og:image" content="https://s2.ax1x.com/2019/04/17/Azw7tJ.png">
+<meta property="og:updated_time" content="2019-04-17T10:40:39.055Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="rpm、yum、apt-get">
-<meta name="twitter:description" content="rpm包和deb包是两种Linux系统下最常见的安装包格式。rpm包主要应用在RedHat系列包括 Fedora等发行版的Linux系统上，deb包主要应用于Debian系列包括现在比较流行的Ubuntu等发行版上。 rpm/yum适用于Redhat、CentOS、Suse等平台；apt-get/dpkg适用于Debian、Ubuntu等平台；zypper适合于Suse平台。 rpm常用命令rpm">
+<meta name="twitter:title" content="Linux top 命令">
+<meta name="twitter:description" content="top简介​    top命令是Linux下常用的系统性能分析工具，能实时查看系统中各个进程资源占用情况。 top参数语法top [-] [d] [p] [q] [c] [C] [S] [s]  [n] 参数  d 指定每两次屏幕信息刷新之间的时间间隔。当然用户可以使用s交互命令来改变之。 p 通过指定监控进程ID来仅仅监控某个进程的状态。 q 该选项将使top没有任何延迟的进行刷新。如果调用程序">
+<meta name="twitter:image" content="https://s2.ax1x.com/2019/04/17/Azw7tJ.png">
 
 
 
@@ -120,13 +122,13 @@
 
 
 
-  <link rel="canonical" href="https://peanuts9.github.io/Linux/rpm、yum、apt-get/">
+  <link rel="canonical" href="https://peanuts9.github.io/Linux/Linux-top-命令/">
 
 
 
 
 
-  <title>rpm、yum、apt-get | 胖胖的</title>
+  <title>Linux top 命令 | 胖胖的</title>
   
 
 
@@ -263,7 +265,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://peanuts9.github.io/Linux/rpm、yum、apt-get/">
+    <link itemprop="mainEntityOfPage" href="https://peanuts9.github.io/Linux/Linux-top-命令/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="peanuts9">
@@ -280,7 +282,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">rpm、yum、apt-get</h1>
+          <h1 class="post-title" itemprop="name headline">Linux top 命令</h1>
         
 
         <div class="post-meta">
@@ -292,8 +294,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-08T19:44:49+08:00">
-                2018-02-08
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-17T18:38:52+08:00">
+                2018-03-17
               </time>
             
 
@@ -352,11 +354,88 @@
       
 
       
-        <p>rpm包和deb包是两种Linux系统下最常见的安装包格式。<br>rpm包主要应用在RedHat系列包括 Fedora等发行版的Linux系统上，<br>deb包主要应用于Debian系列包括现在比较流行的Ubuntu等发行版上。</p>
-<p>rpm/yum适用于Redhat、CentOS、Suse等平台；<br>apt-get/dpkg适用于Debian、Ubuntu等平台；<br>zypper适合于Suse平台。</p>
-<h5 id="rpm常用命令"><a href="#rpm常用命令" class="headerlink" title="rpm常用命令"></a>rpm常用命令</h5><p>rpm -e 软件名称<br>rpm -qa | grep 软件名称<br>rpm -qa  查看所有已经安装的包<br>rpm -qi pkg_name  查看已安装包的详细信息，例如安装时间<br>rpm -qf file_name  查看一个文件属于哪个rpm 包<br>rpm -ql pkg_name  查看已安装的包里面有哪些文件<br>rpm -qpl pkg_name  查看一个RPM包里有哪些文件<br>rpm -Uvh pkg_name  安装所有指定的包，会覆盖原包<br>rpm -ivh pkg_name  安装所有指定的包，通常会保留原包<br>rpm -Fvh pkg_name   只安装比当前版本更高的包</p>
-<h5 id="yum常用命令-Redhat安装rpm包"><a href="#yum常用命令-Redhat安装rpm包" class="headerlink" title="yum常用命令(Redhat安装rpm包)"></a>yum常用命令(Redhat安装rpm包)</h5><p>yum install 全部安装<br>yum install 包名安装指定的安装包<br>yum groupinsall group1 安装程序组group1<br>yum update全部更新<br>yum update包名更新指定程序包<br>yum check-update检查可更新的程序<br>yum upgrade包名升级指定程序包<br>yum groupupdate group1升级程序组<br>yum info包名显示按装包信息<br>yum list显示所有已安装和可以安装的程序包<br>yum list包名显示指定程序包的安装情况<br>yum groupinfo group1显示程序组group1信息yum search string根据安装包string查找安装包。<br>yum groupremove group1删除程序组group1<br>yum deplist package1查看程序package1的依赖情况<br>yum clean packages清除缓存目录下的软件包<br>yum clean headers清除缓存目录下的heades<br>yum clean oldheaders清除缓存目录下的旧的标题<br>yum clean，yum clean all（= yum clean package; yum clean oldheaders）清除缓存目录下的软件包及旧的heades<br>yum makecache 更新新的包</p>
-<h5 id="apg-get常用命令（Ubantu安装deb包）"><a href="#apg-get常用命令（Ubantu安装deb包）" class="headerlink" title="apg-get常用命令（Ubantu安装deb包）"></a>apg-get常用命令（Ubantu安装deb包）</h5><p>apt-cache search package 搜索软件包<br>apt-cache show package  获取包的相关信息，如说明、大小、版本等<br>sudo apt-get install package 安装包<br>sudo apt-get install package –reinstall   重新安装包<br>sudo apt-get -f install   修复安装<br>sudo apt-get remove package 删除包<br>sudo apt-get remove package –purge 删除包，包括配置文件等<br>sudo apt-get update  更新源<br>sudo apt-get upgrade 更新已安装的包<br>sudo apt-get dist-upgrade 升级系统<br>apt-cache depends package 了解使用该包依赖那些包<br>apt-cache rdepends package 查看该包被哪些包依赖<br>sudo apt-get build-dep package 安装相关的编译环境<br>apt-get source package  下载该包的源代码<br>sudo apt-get clean &amp;&amp; sudo apt-get autoclean 清理无用的包<br>sudo apt-get check 检查是否有损坏的依赖</p>
+        <h3 id="top简介"><a href="#top简介" class="headerlink" title="top简介"></a>top简介</h3><p>​    top命令是Linux下常用的系统性能分析工具，能实时查看系统中各个进程资源占用情况。</p>
+<h3 id="top参数"><a href="#top参数" class="headerlink" title="top参数"></a>top参数</h3><p><strong>语法</strong><br>top [-] [d] [p] [q] [c] [C] [S] [s]  [n]</p>
+<p><strong>参数</strong></p>
+<ul>
+<li>d 指定每两次屏幕信息刷新之间的时间间隔。当然用户可以使用s交互命令来改变之。</li>
+<li>p 通过指定监控进程ID来仅仅监控某个进程的状态。</li>
+<li>q 该选项将使top没有任何延迟的进行刷新。如果调用程序有超级用户权限，那么top将以尽可能高的优先级运行。</li>
+<li>S 指定累计模式。</li>
+<li>s 使top命令在安全模式中运行。这将去除交互命令所带来的潜在危险。</li>
+<li>i  使top不显示任何闲置或者僵死进程。</li>
+<li>c 显示整个命令行而不只是显示命令名。</li>
+</ul>
+<p>下面介绍在top命令执行过程中可以使用的一些交互命令。</p>
+<p>从使用角度来看，熟练的掌握这些命令比掌握选项还重要一些。</p>
+<p>这些命令都是单字母的，如果在命令行选项中使用了s选项，则可能其中一些<a href="http://www.linuxeye.com/command" target="_blank" rel="noopener">Linux命令</a>会被屏蔽掉。</p>
+<ul>
+<li>Ctrl+L 擦除并且重写屏幕。</li>
+<li>h或者? 显示帮助画面，给出一些简短的命令总结说明。</li>
+<li>k 终止一个进程。系统将提示用户输入需要终止的进程PID，以及需要发送给该进程什么样的信号。一般的终止进程可以使用15信号；如果不能正常结束那就使用信号9强制结束该进程。默认值是信号15。在安全模式中此命令被屏蔽。</li>
+<li>i 忽略闲置和僵死进程。这是一个开关式命令。</li>
+<li>q 退出程序。</li>
+<li>r 重新安排一个进程的优先级别。系统提示用户输入需要改变的进程PID以及需要设置的进程优先级值。输入一个正值将使优先级降低，反之则可以使该进程拥有更高的优先权。默认值是10。</li>
+<li>s 改变两次刷新之间的延迟时间。系统将提示用户输入新的时间，单位为s。如果有小数，就换算成m s。输入0值则系统将不断刷新，默认值是5 s。需要注意的是如果设置太小的时间，很可能会引起不断刷新，从而根本来不及看清显示的情况，而且系统负载也会大大增加。</li>
+<li>f或者F 从当前显示中添加或者删除项目。</li>
+<li>o或者O改变显示项目的顺序。</li>
+<li>l 切换显示平均负载和启动时间信息。</li>
+<li>m 切换显示内存信息。</li>
+<li>t 切换显示进程和CPU状态信息。</li>
+<li>c 切换显示命令名称和完整命令行。</li>
+<li>M 根据驻留内存大小进行排序。</li>
+<li>P 根据CPU使用百分比大小进行排序。</li>
+<li>T 根据时间/累计时间进行排序。</li>
+<li>W 将当前设置写入~/.toprc文件中。这是写top配置文件的推荐方法。</li>
+<li>Shift+M 可按内存占用情况进行排序。</li>
+</ul>
+<h3 id="top输出数据"><a href="#top输出数据" class="headerlink" title="top输出数据"></a>top输出数据</h3><p><img src="https://s2.ax1x.com/2019/04/17/Azw7tJ.png" alt="Azw7tJ.png"></p>
+<p>​    输出数据从上至下可分为 6 个部分，前 5 行每一行为一部分。下面依次说明每一行数据所代表的含义。</p>
+<h4 id="第一行"><a href="#第一行" class="headerlink" title="第一行"></a>第一行</h4><p><code>top - 17:46:12 up 5 min,  0 users,  load average: 0.52, 0.58, 0.59</code></p>
+<p>17:46:12 为目前系统时间</p>
+<p>up 5 min  系统运行时间5分钟</p>
+<p>0 users ： 登录用户数</p>
+<p>load average: 0.52, 0.58, 0.59 ：系统负载，即任务队列的平均长度。三个数值分别为 1分钟、5分钟、15分钟前到现在的平均值</p>
+<h4 id="第二行：Task"><a href="#第二行：Task" class="headerlink" title="第二行：Task"></a>第二行：Task</h4><p><code>Tasks:   4 total,   1 running,   3 sleeping,   0 stopped,   0 zombie</code></p>
+<p>这一行展示运行任务相关 的信息</p>
+<p>4 total ： 当前总共任务数</p>
+<p>1 running：运行中任务数</p>
+<p>3 sleeping：睡眠中任务数</p>
+<p>0 stopped：停止的任务数</p>
+<p>0 zombie：僵尸状态任务数</p>
+<h4 id="第三行：CPU"><a href="#第三行：CPU" class="headerlink" title="第三行：CPU"></a>第三行：CPU</h4><p><code>%Cpu(s): 15.2 us,10.6 sy,0.0 ni,74.1 id, 0.0 wa,0.0 hi,0.0 si,0.0 st</code></p>
+<p>15.2 us ： 用户空间CPU占用率</p>
+<p>10.6 sy ： 内核空间CPU占用率</p>
+<p>0.0 ni ： 用户进程空间内改变过优先级的进程CPU占用率</p>
+<p>74.1 id ：空闲CPU比例</p>
+<p>0.0 wa ： 等待输入输出的CPU时间百分比</p>
+<p>0.0%hi：硬件CPU中断占用百分比</p>
+<p>0.0%si：软中断占用百分比</p>
+<p>0.0%st：虚拟机占用百分比</p>
+<h4 id="第四行：内存"><a href="#第四行：内存" class="headerlink" title="第四行：内存"></a>第四行：内存</h4><p><code>KiB Mem:8340020 total,4786132 free,3324536 used,229352 buff/cache</code></p>
+<p>8340020 total ： 物理内存总量</p>
+<p>4786132 free ： 空闲内存总量</p>
+<p>3324536 used ： 使用的内存量</p>
+<p>229352 buff/cache ： 缓存的内存量</p>
+<h4 id="第五行：SWAP交换区"><a href="#第五行：SWAP交换区" class="headerlink" title="第五行：SWAP交换区"></a>第五行：SWAP交换区</h4><p><code>KiB Swap:15396808 total,15325096 free,71712 used.4853244 avail Mem</code></p>
+<p>15396808 total ： 交换区总量</p>
+<p>15325096 free ： 空闲交换区总量</p>
+<p>71712 used ： 使用中交换区总量</p>
+<p>4853244 avail Mem ：可用于进程下一次分配的物理内存数量</p>
+<h4 id="第六行：进程状态"><a href="#第六行：进程状态" class="headerlink" title="第六行：进程状态"></a>第六行：进程状态</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">PID USER  PR  NI   VIRT    RES    SHR S  %CPU %MEM     TIME+ COMMAND</span><br><span class="line">1   root  20   0    8324    156    132 S   0.0  0.0   0:00.06 init</span><br></pre></td></tr></table></figure>
+<p>​    最后一部分就是各进程的状态监控</p>
+<p>PID：进程ID</p>
+<p> USER：进程所有者 </p>
+<p>PR：进程优先级</p>
+<p> NI：NICE值。负值表示高优先级，正值表示低优先级 </p>
+<p>VIRT：进程使用的虚拟内存总量 VIRT = SWAP + RES </p>
+<p>RES：进程使用的、未被换出的物理内存大小（常驻内存） RES = CODE + DATA </p>
+<p>SHR：共享内存大小 </p>
+<p>S：进程状态 R=运行 S=睡眠 T=停止 Z=僵尸 </p>
+<p>%CPU：上次更新到现在的CPU时间占用百分比 %</p>
+<p>MEM：进程使用的物理内存百分比 </p>
+<p>TIME+：进程使用的CPU时间总计</p>
+<p>COMMAND：进程名称 多U多核CPU监控</p>
 
       
     </div>
@@ -387,8 +466,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/tornado/python/tornado自定义错误页面/" rel="next" title="tornado自定义错误页面">
-                <i class="fa fa-chevron-left"></i> tornado自定义错误页面
+              <a href="/go/json/Golang-json序列化与反序列化/" rel="next" title="Golang json序列化与反序列化">
+                <i class="fa fa-chevron-left"></i> Golang json序列化与反序列化
               </a>
             
           </div>
@@ -397,8 +476,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/go/Golang断言/" rel="prev" title="Golang断言">
-                Golang断言 <i class="fa fa-chevron-right"></i>
+              <a href="/go/Golang方法集/" rel="prev" title="Golang方法集">
+                Golang方法集 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -531,7 +610,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-5"><a class="nav-link" href="#rpm常用命令"><span class="nav-number">1.</span> <span class="nav-text">rpm常用命令</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#yum常用命令-Redhat安装rpm包"><span class="nav-number">2.</span> <span class="nav-text">yum常用命令(Redhat安装rpm包)</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#apg-get常用命令（Ubantu安装deb包）"><span class="nav-number">3.</span> <span class="nav-text">apg-get常用命令（Ubantu安装deb包）</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#top简介"><span class="nav-number">1.</span> <span class="nav-text">top简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#top参数"><span class="nav-number">2.</span> <span class="nav-text">top参数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#top输出数据"><span class="nav-number">3.</span> <span class="nav-text">top输出数据</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#第一行"><span class="nav-number">3.1.</span> <span class="nav-text">第一行</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#第二行：Task"><span class="nav-number">3.2.</span> <span class="nav-text">第二行：Task</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#第三行：CPU"><span class="nav-number">3.3.</span> <span class="nav-text">第三行：CPU</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#第四行：内存"><span class="nav-number">3.4.</span> <span class="nav-text">第四行：内存</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#第五行：SWAP交换区"><span class="nav-number">3.5.</span> <span class="nav-text">第五行：SWAP交换区</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#第六行：进程状态"><span class="nav-number">3.6.</span> <span class="nav-text">第六行：进程状态</span></a></li></ol></li></ol></div>
             
 
           </div>
