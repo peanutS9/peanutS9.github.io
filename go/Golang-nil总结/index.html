@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="Golang Printf、Sprintf 、Fprintf 格式化123456789101112131415161718%v 输出结构体 &amp;#123;10 30&amp;#125;%+v 输出结构体显示字段名 &amp;#123;one:10 tow:30&amp;#125;%#v 输出结构体源代码片段 main.Point&amp;#123;one:10, tow:30&amp;#125;%T 输出值的类型			 main.Poin">
+<meta name="description" content="可在 $GOROOT/src/builtin/builtin.go 中查找到 nil 的定义如下： 123// nil is a predeclared identifier representing the zero value for a// pointer, channel, func, interface, map, or slice type.var nil Type // Type m">
 <meta name="keywords" content="go">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Golang Printf Sprintf Fprintf 格式化">
-<meta property="og:url" content="https://peanuts9.github.io/go/Golang-Printf-Sprintf-Fprintf-格式化/index.html">
+<meta property="og:title" content="Golang nil总结">
+<meta property="og:url" content="https://peanuts9.github.io/go/Golang-nil总结/index.html">
 <meta property="og:site_name" content="胖胖的">
-<meta property="og:description" content="Golang Printf、Sprintf 、Fprintf 格式化123456789101112131415161718%v 输出结构体 &amp;#123;10 30&amp;#125;%+v 输出结构体显示字段名 &amp;#123;one:10 tow:30&amp;#125;%#v 输出结构体源代码片段 main.Point&amp;#123;one:10, tow:30&amp;#125;%T 输出值的类型			 main.Poin">
+<meta property="og:description" content="可在 $GOROOT/src/builtin/builtin.go 中查找到 nil 的定义如下： 123// nil is a predeclared identifier representing the zero value for a// pointer, channel, func, interface, map, or slice type.var nil Type // Type m">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-04-12T12:11:14.163Z">
+<meta property="og:updated_time" content="2019-04-20T09:32:15.555Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Golang Printf Sprintf Fprintf 格式化">
-<meta name="twitter:description" content="Golang Printf、Sprintf 、Fprintf 格式化123456789101112131415161718%v 输出结构体 &amp;#123;10 30&amp;#125;%+v 输出结构体显示字段名 &amp;#123;one:10 tow:30&amp;#125;%#v 输出结构体源代码片段 main.Point&amp;#123;one:10, tow:30&amp;#125;%T 输出值的类型			 main.Poin">
+<meta name="twitter:title" content="Golang nil总结">
+<meta name="twitter:description" content="可在 $GOROOT/src/builtin/builtin.go 中查找到 nil 的定义如下： 123// nil is a predeclared identifier representing the zero value for a// pointer, channel, func, interface, map, or slice type.var nil Type // Type m">
 
 
 
@@ -120,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="https://peanuts9.github.io/go/Golang-Printf-Sprintf-Fprintf-格式化/">
+  <link rel="canonical" href="https://peanuts9.github.io/go/Golang-nil总结/">
 
 
 
 
 
-  <title>Golang Printf Sprintf Fprintf 格式化 | 胖胖的</title>
+  <title>Golang nil总结 | 胖胖的</title>
   
 
 
@@ -263,7 +263,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://peanuts9.github.io/go/Golang-Printf-Sprintf-Fprintf-格式化/">
+    <link itemprop="mainEntityOfPage" href="https://peanuts9.github.io/go/Golang-nil总结/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="peanuts9">
@@ -280,7 +280,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Golang Printf Sprintf Fprintf 格式化</h1>
+          <h1 class="post-title" itemprop="name headline">Golang nil总结</h1>
         
 
         <div class="post-meta">
@@ -292,8 +292,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-06T16:35:33+08:00">
-                2017-12-06
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-20T17:31:17+08:00">
+                2018-04-20
               </time>
             
 
@@ -352,7 +352,22 @@
       
 
       
-        <h4 id="Golang-Printf、Sprintf-、Fprintf-格式化"><a href="#Golang-Printf、Sprintf-、Fprintf-格式化" class="headerlink" title="Golang Printf、Sprintf 、Fprintf 格式化"></a>Golang Printf、Sprintf 、Fprintf 格式化</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">%v 输出结构体 &#123;10 30&#125;</span><br><span class="line">%+v 输出结构体显示字段名 &#123;one:10 tow:30&#125;</span><br><span class="line">%#v 输出结构体源代码片段 main.Point&#123;one:10, tow:30&#125;</span><br><span class="line">%T 输出值的类型			 main.Point</span><br><span class="line">%t 输出格式化布尔值		 true</span><br><span class="line">%d`输出标准的十进制格式化 100</span><br><span class="line">%b`输出标准的二进制格式化 99 对应 1100011</span><br><span class="line">%c`输出定整数的对应字符  99 对应 c</span><br><span class="line">%x`输出十六进制编码  99 对应 63</span><br><span class="line">%f`输出十进制格式化  99 对应 63</span><br><span class="line">%e`输出科学技科学记数法表示形式  123400000.0 对应 1.234000e+08</span><br><span class="line">%E`输出科学技科学记数法表示形式  123400000.0 对应 1.234000e+08</span><br><span class="line">%s 进行基本的字符串输出   &quot;\&quot;string\&quot;&quot;  对应 &quot;string&quot;</span><br><span class="line">%q 源代码中那样带有双引号的输出   &quot;\&quot;string\&quot;&quot;  对应 &quot;\&quot;string\&quot;&quot;</span><br><span class="line">%p 输出一个指针的值   &amp;jgt 对应 0xc00004a090</span><br><span class="line">% 后面使用数字来控制输出宽度 默认结果使用右对齐并且通过空格来填充空白部分</span><br><span class="line">%2.2f  指定浮点型的输出宽度 1.2 对应  1.20</span><br><span class="line">%*2.2f  指定浮点型的输出宽度对齐，使用 `-` 标志 1.2 对应  *1.20</span><br></pre></td></tr></table></figure>
+        <p>可在 <code>$GOROOT/src/builtin/builtin.go</code> 中查找到 <code>nil</code> 的定义如下：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// nil is a predeclared identifier representing the zero value for a</span></span><br><span class="line"><span class="comment">// pointer, channel, func, interface, map, or slice type.</span></span><br><span class="line"><span class="keyword">var</span> <span class="literal">nil</span> Type <span class="comment">// Type must be a pointer, channel, func, interface, map, or slice type</span></span><br></pre></td></tr></table></figure>
+<p>​    可以发现在golang中，nil只能赋值给指针、channel、func、interface、map或slice类型的变量。如果未遵循这个规则，则会引发panic。</p>
+<p>在网上发现个与 nil 相关的有趣问题，代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">func main() &#123;</span><br><span class="line">    var t *T</span><br><span class="line">    var i interface&#123;&#125; = t</span><br><span class="line">    fmt.Println(t == nil, i == t, i == nil)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>输出结果：true true false。</p>
+<p>为什么 t == nil, i == t, 而 i != nil???</p>
+<p>综合了下众多回答，造成这个结果主要是：nil 接口与 nil 值差异造成的。</p>
+<p>当执行 i == nil 的时候，由于 i 是接口类型，编译器会把没有类型的 nil 视为一个 interface{}类型的 nil 并与 i 进行对比。</p>
+<p>在底层，interface作为两个成员实现：一个类型和一个值。该值被称为接口的动态值， 它是一个任意的具体值，而该接口的类型则为该值的类型。对于 int 值3， 一个接口值示意性地包含(int, 3)。</p>
+<p>由于 i 初始化时等于 t，所以 接口 i 的类型为 T，而值为 nil，这与 nil 中 类型、值均为 nil 不符合，所以导致 <code>i == nil</code>  的结果为 <code>false</code></p>
+<p>另外附一下其他的答案：</p>
+<p>nil一词多义<br>第一个nil表示空指针，第二个nil表示没有“挂上东西”的接口<br>第一个比较式是判断t是否为空指针，第二个比较式是判断这个接口是否没“挂上东西”</p>
+<p>(*interface{})(nil) 代表将nil转成interface类型的指针，其实得到的结果仅仅是空接口类型指针并且它指向无效的地址。注意是空接口类型指针而不是空指针</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">var val interface&#123;&#125; = (*interface&#123;&#125;)(nil)</span><br><span class="line">fmt.Println(val == nil)  //输出 false</span><br></pre></td></tr></table></figure>
+<p>因为此时 val 的类型为 interface{}，所以false</p>
 
       
     </div>
@@ -383,8 +398,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/go/go-slice-map/" rel="next" title="go slice map">
-                <i class="fa fa-chevron-left"></i> go slice map
+              <a href="/go/内存对齐/内存对齐/" rel="next" title="内存对齐">
+                <i class="fa fa-chevron-left"></i> 内存对齐
               </a>
             
           </div>
@@ -393,8 +408,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/go/Golang包相关知识/" rel="prev" title="Golang包相关知识">
-                Golang包相关知识 <i class="fa fa-chevron-right"></i>
+              <a href="/uncategorized/合并K个排序链表/" rel="prev" title="合并K个排序链表">
+                合并K个排序链表 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -447,17 +462,8 @@
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            站点概览
-          </li>
-        </ul>
-      
 
-      <section class="site-overview-wrap sidebar-panel">
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
             
@@ -517,22 +523,6 @@
         </div>
       </section>
 
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#Golang-Printf、Sprintf-、Fprintf-格式化"><span class="nav-number">1.</span> <span class="nav-text">Golang Printf、Sprintf 、Fprintf 格式化</span></a></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
       
 
       
